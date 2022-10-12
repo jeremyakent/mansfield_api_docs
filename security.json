@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "version": "1.0.0",
-        "title": "Mansfield Energy APIs - Security",
+        "version": "v1.0",
+        "title": "Mansfield Energy - Security",
         "description": "OAuth 2.0 Client Credential Flow through Azure AD B2C",
         "contact": {
             "name": "Jeremy Kent",
@@ -53,8 +53,39 @@
                         "description": "Success",
                         "content": {
                             "application/json": {
+                                "example": {
+                                    "access_token": "eyJ0eX..",
+                                    "token_type": "Bearer",
+                                    "not_before": 1664974488,
+                                    "expires_in": 3600,
+                                    "expires_on": 1664978088,
+                                    "resource": "9fbd3ab8-ff.."
+                                },
                                 "schema": {
-                                    "$ref": "#/components/schemas/200"
+                                    "type": "object",
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "description": "Token to use in the Authorization Header for Mansfield API access"
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "description": "Bearer"
+                                        },
+                                        "not_before": {
+                                            "type": "number"
+                                        },
+                                        "expires_in": {
+                                            "type": "integer",
+                                            "description": "Length of time (seconds)"
+                                        },
+                                        "expires_on": {
+                                            "type": "number"
+                                        },
+                                        "resource": {
+                                            "type": "string"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -63,64 +94,25 @@
                         "description": "Bad Request",
                         "content": {
                             "application/json": {
+                                "example": {
+                                    "error": "invalid_request",
+                                    "error_description": "The request is missing required parameter: grant_type"
+                                },
                                 "schema": {
-                                    "$ref": "#/components/schemas/400"
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        },
+                                        "error_description": {
+                                            "type": "string"
+                                        }
+                                    }
                                 }
                             }
                         }
-                    },
-                    "404": {
-                        "description": "Resource Not Found"
-                    },
-                    "500": {
-                        "description": "Unexpected Error"
                     }
                 }
-            }
-        }
-    },
-    "components": {
-        "schemas": {
-            "200": {
-                "type": "object",
-                "properties": {
-                    "access_token": {
-                        "type": "string",
-                        "description": "Token to use in the Authorization Header for Mansfield API access"
-                    },
-                    "token_type": {
-                        "type": "string",
-                        "description": "Bearer"
-                    },
-                    "not_before": {
-                        "type": "number"
-                    },
-                    "expires_in": {
-                        "type": "integer",
-                        "description": "Length of time (in seconds)"
-                    },
-                    "expires_on": {
-                        "type": "number"
-                    },
-                    "resource": {
-                        "type": "string"
-                    }
-                },
-                "additionalProperties": false
-            },
-            "400": {
-                "type": "object",
-                "properties": {
-                    "error": {
-                        "type": "string",
-                        "description": "Examples: invalid_request, invalid_client, invalid_scope"
-                    },
-                    "error_description": {
-                        "type": "string",
-                        "description": "Examples: The request is missing required parameter: grant_type, The request does not contain a client id parameter"
-                    }
-                },
-                "additionalProperties": false
             }
         }
     }
