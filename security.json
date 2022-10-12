@@ -1,0 +1,127 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "version": "1.0.0",
+        "title": "Mansfield Energy APIs - Security",
+        "description": "OAuth 2.0 Client Credential Flow through Azure AD B2C",
+        "contact": {
+            "name": "Jeremy Kent",
+            "email": "jkent@mansfieldoil.com"
+        }
+    },
+    "servers": [
+        {
+            "url": "https://{{tenantName}}.b2clogin.com/{{tenantName}}.onmicrosoft.com/b2c_1_signin",
+            "description": "Replace the tenantName with the Staging or Production tenant name shared by Mansfield"
+        }
+    ],
+    "paths": {
+        "/oauth2/v2.0/token": {
+            "get": {
+                "summary": "Token",
+                "description": "Retrieve the client access token",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "grant_type": {
+                                        "type": "string",
+                                        "description": "client_credentials"
+                                    },
+                                    "client_id": {
+                                        "type": "string",
+                                        "description": "The clientID configured in Azure AD B2C (GUID)"
+                                    },
+                                    "client_secret": {
+                                        "type": "string",
+                                        "description": "The client secret generated in Azure AD B2C (GUID)"
+                                    },
+                                    "scope": {
+                                        "type": "string",
+                                        "description": "The Application ID URI with defined roles"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/200"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/400"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    },
+                    "500": {
+                        "description": "Unexpected Error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "200": {
+                "type": "object",
+                "properties": {
+                    "access_token": {
+                        "type": "string",
+                        "description": "Token to use in the Authorization Header for Mansfield API access"
+                    },
+                    "token_type": {
+                        "type": "string",
+                        "description": "Bearer"
+                    },
+                    "not_before": {
+                        "type": "number"
+                    },
+                    "expires_in": {
+                        "type": "integer",
+                        "description": "Length of time (in seconds)"
+                    },
+                    "expires_on": {
+                        "type": "number"
+                    },
+                    "resource": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "400": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "description": "Examples: invalid_request, invalid_client, invalid_scope"
+                    },
+                    "error_description": {
+                        "type": "string",
+                        "description": "Examples: The request is missing required parameter: grant_type, The request does not contain a client id parameter"
+                    }
+                },
+                "additionalProperties": false
+            }
+        }
+    }
+}

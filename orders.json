@@ -1,0 +1,560 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "version": "1.0.0",
+        "title": "Mansfield Energy APIs - Orders",
+        "description": "Order and Delivery data",
+        "contact": {
+            "name": "Jeremy Kent",
+            "email": "jkent@mansfieldoil.com"
+        }
+    },
+    "servers": [
+        {
+            "url": "{{baseUrl}}/orders",
+            "description": "Replace the baseUrl with the Staging or Production url shared by Mansfield"
+        }
+    ],
+    "paths": {
+        "/v1/CreateInventoryOrder": {
+            "post": {
+                "summary": "CreateInventoryOrder",
+                "description": "Create an inventory order with delivery information in Entinuum",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Order"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OrderResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/GetFixedPriceOrders": {
+            "get": {
+                "summary": "GetFixedPriceOrders",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "shipToIds",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "startOrderedDate",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    {
+                        "name": "endOrderedDate",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    {
+                        "name": "orderStatusIds",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FixedPriceOrder"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AdderItem": {
+                "type": "object",
+                "properties": {
+                    "adderID": {
+                        "type": "integer",
+                        "description": "Entinuum AdderID",
+                        "format": "int32"
+                    },
+                    "adderTypeID": {
+                        "type": "integer",
+                        "description": "Entinuum AdderTypeID",
+                        "format": "int32"
+                    },
+                    "measurementUnitID": {
+                        "type": "integer",
+                        "description": "Entinuum MeasurementUnitID",
+                        "format": "int32"
+                    },
+                    "adderRate": {
+                        "type": "number",
+                        "description": "Unit cost/price of Adder",
+                        "format": "double"
+                    },
+                    "isPayable": {
+                        "type": "boolean",
+                        "description": "Should Adder be paid to carrier/supplier"
+                    },
+                    "isBillable": {
+                        "type": "boolean",
+                        "description": "Should Adder be billed to the customer"
+                    },
+                    "isPlanned": {
+                        "type": "boolean",
+                        "description": "Is the Adder planned on the buy/sell contract"
+                    }
+                },
+                "additionalProperties": false,
+                "description": ""
+            },
+            "Bol": {
+                "type": "object",
+                "properties": {
+                    "bolNumber": {
+                        "type": "string",
+                        "description": "Bill of lading number",
+                        "nullable": true
+                    },
+                    "terminalID": {
+                        "type": "integer",
+                        "description": "Entinuum TerminalID",
+                        "format": "int32"
+                    },
+                    "supplierID": {
+                        "type": "integer",
+                        "description": "Entinuum SupplierID",
+                        "format": "int32"
+                    },
+                    "loadingNumber": {
+                        "type": "string",
+                        "description": "Loading Number",
+                        "nullable": true
+                    },
+                    "liftStartDate": {
+                        "type": "string",
+                        "description": "Lift start date and time",
+                        "format": "date-time"
+                    },
+                    "liftEndDate": {
+                        "type": "string",
+                        "description": "Lift end date and time",
+                        "format": "date-time"
+                    },
+                    "bolItems": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BolItem"
+                        },
+                        "description": "List of BOL items",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false,
+                "description": ""
+            },
+            "BolItem": {
+                "type": "object",
+                "properties": {
+                    "grossQuantity": {
+                        "type": "number",
+                        "description": "Lifted gross quantity",
+                        "format": "double"
+                    },
+                    "netQuantity": {
+                        "type": "number",
+                        "description": "Lifted net quantity",
+                        "format": "double"
+                    },
+                    "productID": {
+                        "type": "integer",
+                        "description": "Entinuum ProductID",
+                        "format": "int32"
+                    }
+                },
+                "additionalProperties": false,
+                "description": ""
+            },
+            "LineItem": {
+                "required": [
+                    "buyProductContractID",
+                    "grossQuantity",
+                    "netQuantity",
+                    "productID",
+                    "productUnitCost",
+                    "productUnitPrice",
+                    "sellContractID"
+                ],
+                "type": "object",
+                "properties": {
+                    "productID": {
+                        "type": "integer",
+                        "description": "Entinuum ProductID",
+                        "format": "int32"
+                    },
+                    "grossQuantity": {
+                        "type": "number",
+                        "description": "Gross Quantity",
+                        "format": "double"
+                    },
+                    "netQuantity": {
+                        "type": "number",
+                        "description": "Net Quantity",
+                        "format": "double"
+                    },
+                    "buyProductContractID": {
+                        "type": "integer",
+                        "description": "Entinuum Supplier ContractId",
+                        "format": "int32"
+                    },
+                    "buyFreightContractID": {
+                        "type": "integer",
+                        "description": "Entinuum FreightContractID *Not required for FOB*",
+                        "format": "int32",
+                        "nullable": true
+                    },
+                    "sellContractID": {
+                        "type": "integer",
+                        "description": "Entinuum SellContractID for customer",
+                        "format": "int32"
+                    },
+                    "productUnitPrice": {
+                        "type": "number",
+                        "description": "Unit price from the sell contract",
+                        "format": "double"
+                    },
+                    "productUnitCost": {
+                        "type": "number",
+                        "description": "Freight cost from the buy freight contract",
+                        "format": "double"
+                    },
+                    "freightUnitPrice": {
+                        "type": "number",
+                        "description": "Freight price from the sell contract *Not required for FOB*",
+                        "format": "double",
+                        "nullable": true
+                    },
+                    "freightUnitCost": {
+                        "type": "number",
+                        "description": "Freight cost from the buy freight contract *Not required for FOB*",
+                        "format": "double",
+                        "nullable": true
+                    },
+                    "corporatePO": {
+                        "type": "string",
+                        "description": "Coporate PO number setup on the sell contract",
+                        "nullable": true
+                    },
+                    "shipToPO": {
+                        "type": "string",
+                        "description": "ShipTo PO number setup on the sell contract",
+                        "nullable": true
+                    },
+                    "adderLineItems": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AdderItem"
+                        },
+                        "description": "List of Adder items",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false,
+                "description": ""
+            },
+            "Order": {
+                "required": [
+                    "boLs",
+                    "carrierID",
+                    "deliveryEndDate",
+                    "deliveryStartDate",
+                    "lineItems",
+                    "shipToID"
+                ],
+                "type": "object",
+                "properties": {
+                    "shipToID": {
+                        "type": "integer",
+                        "description": "Entinuum ShipToID",
+                        "format": "int32"
+                    },
+                    "deliveryStartDate": {
+                        "type": "string",
+                        "description": "Delivery start date and time",
+                        "format": "date-time"
+                    },
+                    "deliveryEndDate": {
+                        "type": "string",
+                        "description": "Delivery end date and time",
+                        "format": "date-time"
+                    },
+                    "carrierID": {
+                        "type": "integer",
+                        "description": "Entinuum CarrierID",
+                        "format": "int32"
+                    },
+                    "lineItems": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/LineItem"
+                        },
+                        "description": "List of order delivery items"
+                    },
+                    "deliveryTicketNumber": {
+                        "type": "string",
+                        "description": "Proof of delivery number",
+                        "nullable": true
+                    },
+                    "vehicleID": {
+                        "type": "integer",
+                        "description": "The truck identifier setup for inventory transactions",
+                        "format": "int32",
+                        "nullable": true
+                    },
+                    "driverID": {
+                        "type": "integer",
+                        "description": "Entinuum DriverID setup for the truck",
+                        "format": "int32",
+                        "nullable": true
+                    },
+                    "internalComments": {
+                        "type": "string",
+                        "description": "Internal comments to display on the Entinuum order entry screen",
+                        "nullable": true
+                    },
+                    "dispatchComments": {
+                        "type": "string",
+                        "description": "Dispatch comments to display on the Entinuum order scheduling screen",
+                        "nullable": true
+                    },
+                    "customerOrderComments": {
+                        "type": "string",
+                        "description": "Order comments to display on the Entinuum order entry screen",
+                        "nullable": true
+                    },
+                    "carrierComments": {
+                        "type": "string",
+                        "description": "Carrier comments to display on the Entinuum order scheduling screen",
+                        "nullable": true
+                    },
+                    "shipToFulfillmentComments": {
+                        "type": "string",
+                        "description": "ShipTo comments to display on the Entinuum order fulfillment screen",
+                        "nullable": true
+                    },
+                    "invoiceComments": {
+                        "type": "string",
+                        "description": "Invoice comments to display on the Entinuum order fulfillment screen",
+                        "nullable": true
+                    },
+                    "boLs": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Bol"
+                        },
+                        "description": "List of bill of ladings"
+                    }
+                },
+                "additionalProperties": false,
+                "description": ""
+            },
+            "OrderResponse": {
+                "type": "object",
+                "properties": {
+                    "OrderID": {
+                        "type": "integer",
+                        "description": "Entinuum OrderID"
+                    },
+                    "OrderDeliveryID": {
+                        "type": "integer",
+                        "description": "Entinuum OrderDeliveryID"
+                    },
+                    "IsSuccess": {
+                        "type": "boolean",
+                        "description": "Was order delivery created successfully"
+                    },
+                    "ErrorMessage": {
+                        "type": "string",
+                        "description": "Description of the error"
+                    },
+                    "OrderStatusID": {
+                        "type": "integer",
+                        "description": "StatusID of the order"
+                    },
+                    "OrderStatus": {
+                        "type": "string",
+                        "description": "Status name of the order"
+                    },
+                    "OrderDeliveryStatusID": {
+                        "type": "integer",
+                        "description": "StatusID of the delivery"
+                    },
+                    "OrderDeliveryStatus": {
+                        "type": "string",
+                        "description": "Status name of the delivery"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "FixedPriceOrder": {
+                "type": "object",
+                "properties": {
+                    "OrderID": {
+                        "type": "integer",
+                        "description": "Entinuum OrderID"
+                    },
+                    "OrderDeliveryID": {
+                        "type": "integer",
+                        "description": "Entinuum OrderDeliveryID"
+                    },
+                    "OrderStatusID": {
+                        "type": "integer",
+                        "description": "StatusID of the order"
+                    },
+                    "OrderStatus": {
+                        "type": "string",
+                        "description": "Status name of the order"
+                    },
+                    "OrderDeliveryStatusID": {
+                        "type": "integer",
+                        "description": "StatusID of the delivery"
+                    },
+                    "OrderDeliveryStatus": {
+                        "type": "string",
+                        "description": "Status name of the delivery"
+                    },
+                    "OrderLineItemNum": {
+                        "type": "integer",
+                        "description": "Order line item number"
+                    },
+                    "CustomerID": {
+                        "type": "integer",
+                        "description": "Entinuum CustomerID"
+                    },
+                    "CustomerName": {
+                        "type": "string",
+                        "description": "Customer name"
+                    },
+                    "SellContractID": {
+                        "type": "integer",
+                        "description": "Entinuum SellContractID for customer"
+                    },
+                    "SellContract": {
+                        "type": "string",
+                        "description": "Sell contract name"
+                    },
+                    "ShipToID": {
+                        "type": "integer",
+                        "description": "Entinuum ShipToID"
+                    },
+                    "ShipTo": {
+                        "type": "string",
+                        "description": "ShipTo name with address"
+                    },
+                    "OrderedQuantity": {
+                        "type": "number",
+                        "description": "Ordered quantity"
+                    },
+                    "OrderedDate": {
+                        "type": "object",
+                        "description": "Ordered date"
+                    },
+                    "ActualDeliveryDate": {
+                        "type": "object",
+                        "description": "Delivery date on the fulfilled order"
+                    },
+                    "DeliveredQuantity": {
+                        "type": "number",
+                        "description": "Delivered Quantity on the fulfilled order"
+                    },
+                    "ProductID": {
+                        "type": "integer",
+                        "description": "Entinuum ProductID"
+                    },
+                    "ProductName": {
+                        "type": "string",
+                        "description": "Name of the product"
+                    },
+                    "UnitPrice": {
+                        "type": "number",
+                        "description": "Product unit price on the delivered line item"
+                    },
+                    "FixedPrice": {
+                        "type": "number",
+                        "description": "Fixed price portion of the product unit price"
+                    },
+                    "NonFixedPrice": {
+                        "type": "number",
+                        "description": "Non-Fixed price portion of the product unit price"
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Azure AD B2C Token. Example: \\\"Authorization: Bearer {token}\\\"",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ]
+}
