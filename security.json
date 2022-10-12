@@ -23,6 +23,12 @@
                 "requestBody": {
                     "content": {
                         "application/x-www-form-urlencoded": {
+                            "example": {
+                                "grant_type": "client_credentials",
+                                "client_id": "AbC123-..",
+                                "client_secret": "xYZ789-..",
+                                "scope": "https://{{tenantName}}.onmicrosoft.com/clientgateway/.default"
+                            },
                             "schema": {
                                 "type": "object",
                                 "properties": {
@@ -65,19 +71,17 @@
                                     "type": "object",
                                     "properties": {
                                         "access_token": {
-                                            "type": "string",
-                                            "description": "Token to use in the Authorization Header for Mansfield API access"
+                                            "type": "string"
                                         },
                                         "token_type": {
-                                            "type": "string",
-                                            "description": "Bearer"
+                                            "type": "string"
                                         },
                                         "not_before": {
                                             "type": "number"
                                         },
                                         "expires_in": {
                                             "type": "integer",
-                                            "description": "Length of time (seconds)"
+                                            "description": "Seconds"
                                         },
                                         "expires_on": {
                                             "type": "number"
