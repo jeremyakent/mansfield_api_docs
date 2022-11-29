@@ -624,11 +624,11 @@
                     },
                     "OrderedQuantity": {
                         "type": "number",
-                        "description": "Ordered quantity"
+                        "description": "The quantity requested by the customer. If the Order is scheduled or dispatched, this is the scheduled quantity."
                     },
                     "OrderedDate": {
                         "type": "object",
-                        "description": "Ordered date"
+                        "description": "The date requested by the customer for the delivery to be made. If the Order is scheduled or dispatched, this is the scheduled delivery date."
                     },
                     "ActualDeliveryDate": {
                         "type": "object",
