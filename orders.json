@@ -1,7 +1,7 @@
 {
-    "openapi": "3.0.1",
+    "openapi": "3.1.0",
     "info": {
-        "version": "v1.0",
+        "version": "v1.1",
         "title": "Mansfield Energy - Orders",
         "description": "API Endpoints",
         "contact": {
