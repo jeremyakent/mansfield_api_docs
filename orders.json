@@ -20,7 +20,7 @@
         }
     ],
     "paths": {
-        "/api/v1/CreateShipTo": {
+        "/v1/CreateShipTo": {
             "post": {
                 "summary": "CreateShipTo",
                 "description": "Create a ship to record for a tenant in Entinuum",
@@ -47,7 +47,7 @@
                 }
             }
         },
-        "/api/v1/GetShipTosByShipToIds": {
+        "/v1/GetShipTosByShipToIds": {
             "get": {
                 "summary": "GetShipTosByShipToIds",
                 "description": "Get a collection of ship-to objects based on tenant in Entinuum",
