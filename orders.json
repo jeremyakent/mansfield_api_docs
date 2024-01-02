@@ -3,7 +3,7 @@
     "info": {
         "version": "v1.0",
         "title": "Mansfield Energy - Orders",
-        "description": "Order scheduling, delivery, and fulfillment",
+        "description": "API Endpoints",
         "contact": {
             "name": "Jeremy Kent",
             "email": "jkent@mansfieldoil.com"
@@ -11,11 +11,72 @@
     },
     "servers": [
         {
+            "url": "https://apigateway.stg.mansfieldoil.com/qa27/orders",
+            "description": "QA",
             "url": "https://apigateway.stg.mansfieldoil.com/orders",
-            "description": "Staging environment"
+            "description": "Staging"
         }
     ],
     "paths": {
+        "/api/v1/CreateShipTo": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateShipToInput"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/GetShipTosByShipToIds": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "tenantId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "shipToIds",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
         "/v1/CreateInventoryOrder": {
             "post": {
                 "summary": "CreateInventoryOrder",
@@ -240,6 +301,64 @@
     },
     "components": {
         "schemas": {
+            "CreateShipToInput": {
+                "type": "object",
+                "properties": {
+                    "shipToName": {
+                        "type": "string",
+                        "description": "Entinuum ShipTo Name",
+                        "nullable": true
+                    },
+                    "tenantID": {
+                        "type": "integer",
+                        "description": "Entinuum Tenant ID",
+                        "format": "int32"
+                    },
+                    "companyID": {
+                        "type": "integer",
+                        "description": "Entinuum Company ID",
+                        "format": "int32"
+                    },
+                    "companyName": {
+                        "type": "string",
+                        "description": "Entinuum Company Name",
+                        "nullable": true
+                    },
+                    "address1": {
+                        "type": "string",
+                        "description": "Entinuum Address1",
+                        "nullable": true
+                    },
+                    "city": {
+                        "type": "string",
+                        "description": "City Name",
+                        "nullable": true
+                    },
+                    "state": {
+                        "type": "string",
+                        "description": "State Name",
+                        "nullable": true
+                    },
+                    "zip": {
+                        "type": "string",
+                        "description": "Zip Code",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "integer",
+                        "description": "ShipTo Status",
+                        "format": "int32",
+                        "nullable": true
+                    },
+                    "isActive": {
+                        "type": "boolean",
+                        "description": "ShipTo active status",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false,
+                "description": ""
+            },
             "AdderItem": {
                 "type": "object",
                 "properties": {
