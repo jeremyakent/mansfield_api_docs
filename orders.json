@@ -3,7 +3,7 @@
     "info": {
         "version": "v1.1",
         "title": "Mansfield Energy - Orders",
-        "description": "API Endpoints",
+        "description": "Order API Endpoints",
         "contact": {
             "name": "Jeremy Kent",
             "email": "jkent@mansfieldoil.com"
