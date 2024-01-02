@@ -12,7 +12,9 @@
     "servers": [
         {
             "url": "https://apigateway.stg.mansfieldoil.com/qa27/orders",
-            "description": "QA",
+            "description": "QA"
+        },
+        {
             "url": "https://apigateway.stg.mansfieldoil.com/orders",
             "description": "Staging"
         }
