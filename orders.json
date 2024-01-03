@@ -49,7 +49,21 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Success"
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    {
+                                        "shipToID": 0,
+                                        "isSuccess": false,
+                                        "errorMessage": "City and State Mismatch."
+                                    }                        
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateShipToResponse"
+                                }
+                            }
+                        },
                     },
                     "400": {
                         "description": "Bad Request"
@@ -129,7 +143,7 @@
                                     ]
                                 },
                                 "schema": {
-                                    "$ref": "#/components/schemas/OrderResponse"
+                                    "$ref": "#/components/schemas/GetShipTosByShipToIDsResponse"
                                 }
                             }
                         },
@@ -437,6 +451,77 @@
                 },
                 "additionalProperties": false,
                 "description": ""
+            },
+            "CreateShipToResponse": {
+                "type": "object",
+                "properties": {
+                    "ShipToID": {
+                        "type": "integer",
+                        "description": "Newly created entinuum ShipTo ID"
+                    },
+                    "IsSuccess": {
+                        "type": "boolean",
+                        "description": "Was shipTo created successfully"
+                    },
+                    "ErrorMessage": {
+                        "type": "string",
+                        "description": "Description of the error"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "GetShipTosByShipToIDsResponse": {
+                "type": "object",
+                "properties": {
+                    "ShipToID": {
+                        "type": "integer",
+                        "description": "Entinuum ShipTo ID"
+                    },
+                    "ShipToName": {
+                        "type": "string",
+                        "description": "Entinuum ShipTo Name",
+                        "nullable": true
+                    },
+                    "TenantID": {
+                        "type": "integer",
+                        "description": "Entinuum Tenant ID"
+                    },
+                    "CountryID": {
+                        "type": "integer",
+                        "description": "Entinuum Country ID"
+                    },
+                    "StateID": {
+                        "type": "integer",
+                        "description": "Entinuum State ID"
+                    },
+                    "CountyID": {
+                        "type": "integer",
+                        "description": "Entinuum County ID",
+                        "nullable": true
+                    },
+                    "CompanyID": {
+                        "type": "integer",
+                        "description": "Entinuum Company ID"
+                    },
+                    "CustomerID": {
+                        "type": "integer",
+                        "description": "Entinuum Customer ID",
+                        "nullable": true
+                    },
+                    "IsExcludeFromGeoSourcing": {
+                        "type": "integer",
+                        "description": "Is Exclude From GeoSourcing"
+                    },
+                    "IsExcludeFromSourcingRadius": {
+                        "type": "integer",
+                        "description": "Is Exclude From SourcingRadius"
+                    },
+                    "LocationTypeID": {
+                        "type": "integer",
+                        "description": "Entinuum LocationTypeID"
+                    }
+                },
+                "additionalProperties": false
             },
             "AdderItem": {
                 "type": "object",
