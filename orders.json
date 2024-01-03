@@ -53,11 +53,9 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    {
-                                        "shipToID": 0,
-                                        "isSuccess": false,
-                                        "errorMessage": "City and State Mismatch."
-                                    }                        
+                                    "shipToID": 0,
+                                    "isSuccess": false,
+                                    "errorMessage": "City and State Mismatch."                      
                                 },
                                 "schema": {
                                     "$ref": "#/components/schemas/CreateShipToResponse"
@@ -113,7 +111,7 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    [
+                                    "shipTos": [
                                         {
                                             "shipToID": 63298,
                                             "shipToName": "Sunbelt Rentals",
