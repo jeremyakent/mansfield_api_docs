@@ -27,6 +27,19 @@
                 "requestBody": {
                     "content": {
                         "application/json": {
+                            "example": {
+                                "ShipToName": "Sunbelt Rentals - API Test 1",
+                            	"TenantID": 1310,
+                            	"CompanyID": 1310,
+                            	"CompanyName": "Sunbelt Rentals Inc",
+                            	"Address1": "2244 Hardwood Cir",
+                            	"City": "Gainesville",
+                            	"State": "GA",
+                            	"Zip": "30507",
+                            	"Status": 8,
+                            	"IsActive": true,
+                                "County": "Hall"
+                            },
                             "schema": {
                                 "$ref": "#/components/schemas/CreateShipToInput"
                             }
@@ -375,6 +388,11 @@
                     "isActive": {
                         "type": "boolean",
                         "description": "ShipTo active status",
+                        "nullable": true
+                    },
+                    "county": {
+                        "type": "string",
+                        "description": "County Name",
                         "nullable": true
                     }
                 },
