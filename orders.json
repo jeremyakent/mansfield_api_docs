@@ -95,7 +95,44 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success"
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    [
+                                        {
+                                            "shipToID": 63298,
+                                            "shipToName": "Sunbelt Rentals",
+                                            "tenantID": 11,
+                                            "countryID": 1,
+                                            "stateID": 15,
+                                            "countyID": 3482,
+                                            "companyID": 1310,
+                                            "customerID": 1038,
+                                            "isExcludeFromGeoSourcing": false,
+                                            "isExcludeFromSourcingRadius": false,
+                                            "locationTypeID": 0
+                                        },
+                                        {
+                                            "shipToID": 63299,
+                                            "shipToName": "Sunbelt Rentals",
+                                            "tenantID": 11,
+                                            "countryID": 1,
+                                            "stateID": 14,
+                                            "countyID": 693,
+                                            "companyID": 1310,
+                                            "customerID": 1038,
+                                            "isExcludeFromGeoSourcing": false,
+                                            "isExcludeFromSourcingRadius": false,
+                                            "locationTypeID": 0
+                                        }
+                                    ]
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/OrderResponse"
+                                }
+                            }
+                        },
                     },
                     "400": {
                         "description": "Bad Request"
