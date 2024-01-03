@@ -77,6 +77,7 @@
                         "name": "tenantId",
                         "in": "query",
                         "required": true,
+                        "example": "1310",
                         "schema": {
                             "type": "integer",
                             "format": "int32"
@@ -86,6 +87,7 @@
                         "name": "shipToIds",
                         "in": "query",
                         "required": true,
+                        "example": "63298,63299",
                         "schema": {
                             "type": "string"
                         }
