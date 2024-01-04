@@ -53,9 +53,9 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "shipToID": 0,
-                                    "isSuccess": false,
-                                    "errorMessage": "City and State Mismatch."                      
+                                    "shipToID": 154209,
+                                    "isSuccess": true,
+                                    "errorMessage": null                     
                                 },
                                 "schema": {
                                     "$ref": "#/components/schemas/CreateShipToResponse"
